@@ -1,0 +1,24 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "null@null.null",
+                "Name": "rflafla"
+            }
+        ],
+        "Description": "KWin script for walk through desktops",
+        "EnabledByDefault": true,
+        "Icon": "preferences-system-windows",
+        "Id": "Walk-Through-Desktop",
+        "License": "MIT",
+        "Name": "Walk Through Desktop"
+    },
+    "X-KDE-Ordering": 60,
+    "X-Plasma-API": "declarativescript",
+    "X-Plasma-APIX": "javascript",
+    "X-Plasma-MainScript": "ui/main.qml",
+    "X-Plasma-MainScriptX": "code/main.js",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
+
