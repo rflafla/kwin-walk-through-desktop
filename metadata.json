@@ -7,7 +7,7 @@
                 "Name": "rflafla"
             }
         ],
-        "Description": "KWin script for walk through desktops",
+        "Description": "KWin script to walk through desktops",
         "EnabledByDefault": true,
         "Icon": "preferences-system-windows",
         "Id": "Walk-Through-Desktop",
