@@ -19,6 +19,7 @@
     "X-Plasma-APIX": "javascript",
     "X-Plasma-MainScript": "ui/main.qml",
     "X-Plasma-MainScriptX": "code/main.js",
-    "X-Plasma-API-Minimum-Version": "6.0"
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-KDE-ConfigModule": "kwin/effects/configs/kcm_kwin4_genericscripted"
 }
 

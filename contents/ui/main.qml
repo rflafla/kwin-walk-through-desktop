@@ -17,7 +17,7 @@ PlasmaCore.Dialog {
     type: PlasmaCore.Dialog.OnScreenDisplay
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
-    flags: Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint
+    flags: Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint /*| Qt.Popup*/
     location: PlasmaCore.Types.Floating
 
     property var desktops: []
@@ -42,6 +42,8 @@ PlasmaCore.Dialog {
         mainDialog.visible = true;
         mainDialog.x = screen.x + screen.width/2 - mainDialog.width/2;
         mainDialog.y = screen.y + screen.height/2 - mainDialog.height/2;
+
+        timer.interval = KWin.readConfig("timeDisappear", 1000);
     }
 
     function hide() {
@@ -56,6 +58,8 @@ PlasmaCore.Dialog {
             mainDialog.indexCurrent = 0;
         }
         Workspace.currentDesktop = mainDialog.desktops[mainDialog.indexCurrent];
+        timer.running = false;
+        timer.running = true;
     }
 
     function previous() {
@@ -64,6 +68,8 @@ PlasmaCore.Dialog {
             mainDialog.indexCurrent = mainDialog.desktops.length - 1;
         }
         Workspace.currentDesktop = mainDialog.desktops[mainDialog.indexCurrent];
+        timer.running = false;
+        timer.running = true;
     }
 
     function initialize() {
@@ -98,7 +104,7 @@ PlasmaCore.Dialog {
             name: "Walk Through Desktop"
             text: "Walk Through Desktop"
             sequence: "Meta+Tab"
-            onActivated: {
+            onActivated: info => {
                 if (!mainDialog.visible) {
                     show();
                 }
@@ -122,6 +128,17 @@ PlasmaCore.Dialog {
     Item {
         id: mainItem
         focus: true
+
+        Timer {
+            id: timer
+            /*interval: 1000*/
+            running: false
+            repeat: false
+            onTriggered: {
+                hide();
+            }
+        }
+
         Keys.onEscapePressed: (event) => {
             hide();
         }
@@ -187,5 +204,6 @@ PlasmaCore.Dialog {
 
     Component.onCompleted: {
         initialize();
+        KWin.registerWindow(dialog);
     }
 }
