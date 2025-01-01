@@ -17,7 +17,7 @@ PlasmaCore.Dialog {
     type: PlasmaCore.Dialog.OnScreenDisplay
     Kirigami.Theme.colorSet: Kirigami.Theme.View
 
-    flags: Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint /*| Qt.Popup*/
+    flags: Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.Popup
     location: PlasmaCore.Types.Floating
 
     property var desktops: []
