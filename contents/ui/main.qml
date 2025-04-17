@@ -144,7 +144,7 @@ PlasmaCore.Dialog {
         }
         Keys.onReleased: (event) => {
             // mainShortcut.sequence
-            if (event.modifiers === 0 || (event.key !== Qt.Key_Tab && event.key !== Qt.Key_Backtab)) {
+            if (event.modifiers === 0 || event.text.length == 0) {
                 hide();
             }
         }
