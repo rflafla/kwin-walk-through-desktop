@@ -22,6 +22,7 @@ PlasmaCore.Dialog {
 
     property var desktops: []
     property var indexCurrent: 0
+    property var displayed: false
 
     function toggle() {
         if (mainDialog.visible) {
@@ -31,12 +32,16 @@ PlasmaCore.Dialog {
         }
     }
 
+    function ensureDisplayed() {
+        if (!mainDialog.displayed) {
+            mainDialog.indexCurrent = 0;
+            desktopRepeater.model = mainDialog.desktops;
+            mainDialog.displayed = true;
+        }
+    }
+
     function show() {
-        mainDialog.indexCurrent = 0;
-
         mainItem.width = mainDialog.desktops.length * 100;
-        desktopRepeater.model = mainDialog.desktops;
-
 
         var screen = Workspace.clientArea(KWin.FullScreenArea, Workspace.activeScreen, Workspace.currentDesktop);
         mainDialog.visible = true;
@@ -44,10 +49,14 @@ PlasmaCore.Dialog {
         mainDialog.y = screen.y + screen.height/2 - mainDialog.height/2;
 
         timer.interval = KWin.readConfig("timeDisappear", 1000);
+        timer.running = false;
+        timer.running = true;
     }
 
     function hide() {
+        mainDialog.displayed = false;
         mainDialog.visible = false;
+        timer.running = false;
 
         updateOrder();
     }
@@ -58,8 +67,6 @@ PlasmaCore.Dialog {
             mainDialog.indexCurrent = 0;
         }
         Workspace.currentDesktop = mainDialog.desktops[mainDialog.indexCurrent];
-        timer.running = false;
-        timer.running = true;
     }
 
     function previous() {
@@ -68,8 +75,7 @@ PlasmaCore.Dialog {
             mainDialog.indexCurrent = mainDialog.desktops.length - 1;
         }
         Workspace.currentDesktop = mainDialog.desktops[mainDialog.indexCurrent];
-        timer.running = false;
-        timer.running = true;
+
     }
 
     function initialize() {
@@ -87,7 +93,7 @@ PlasmaCore.Dialog {
     }
 
     function changed(desktop) {
-        if (!mainDialog.visible) {
+        if (!mainDialog.displayed) {
             updateOrder();
         }
     }
@@ -105,10 +111,13 @@ PlasmaCore.Dialog {
             text: "Walk Through Desktop"
             sequence: "Meta+Tab"
             onActivated: info => {
-                if (!mainDialog.visible) {
-                    show();
-                }
+                /*if (!mainDialog.displayed) {
+                    //show();
+                    mainDialog.indexCurrent = 0;
+                }*/
+                mainDialog.ensureDisplayed();
                 next();
+                show();
             }
         }
 
@@ -118,10 +127,13 @@ PlasmaCore.Dialog {
             text: "Walk Through Desktop (reverse)"
             sequence: "Meta+Shift+Tab"
             onActivated: {
-                if (!mainDialog.visible) {
-                    show();
-                }
+                /*if (!mainDialog.displayed) {
+                    //show();
+                    mainDialog.indexCurrent = 0;
+                }*/
+                mainDialog.ensureDisplayed();
                 previous();
+                show();
             }
         }
     }
